@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgrestls
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret123
+    volumes:
+      - postgres/data:/var/lib/postgresql/data
+      - postgres/certs:/certs
+    ports:
+      - "5432:5432"
+    command: [
+      "postgres",
+      "-c", "ssl=on",
+      "-c", "ssl_cert_file=/certs/server.crt",
+      "-c", "ssl_key_file=/certs/server.key"
+    ]

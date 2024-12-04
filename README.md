@@ -10,7 +10,7 @@ Various docker compose files for Servers
 ## Servers
 
 * [PostgreSQL](postgresql/README.md)
-* [PostgreSQL with TLS](postgresql-tls/README.md)
+* [PostgreSQL with TLS](postgres-tls/README.md)
 * [LDAP](openldap/README.md)
 * [OpenVPN](openvpn/README.md)
 * [NextCloud](nextcloud/README.md)

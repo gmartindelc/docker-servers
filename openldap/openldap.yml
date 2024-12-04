@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      - LDAP_ORGANISATION=ExampleOrg
+      - LDAP_DOMAIN=example.com
+      - LDAP_ADMIN_PASSWORD=adminpassword
+      - LDAP_CONFIG_PASSWORD=configpassword
+      - LDAP_TLS=true
+      - LDAP_TLS_CRT=/etc/ssl/certs/ldap-server.crt
+      - LDAP_TLS_KEY=/etc/ssl/certs/ldap-server.key
+    ports:
+      - "389:389"    # LDAP
+      - "636:636"    # LDAPS
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+      - ./certs:/etc/ssl/certs  # Mounting the certificates
+
+  phpadmin:
+    image: osixia/phpldapadmin:0.9.0
+    container_name: phpldapadmin
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=ldap
+      - PHPLDAPADMIN_HTTPS=FALSE
+    ports:
+      - "8080:80"
+    depends_on:
+      - ldap
+
+volumes:
+  ldap_data:
+  ldap_config:
